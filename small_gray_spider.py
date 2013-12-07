@@ -24,24 +24,17 @@ class sgs:
     def _get_first_connections_code(self, _list_urls):       
         """Adds the source code for every element in _list_urls if
             it has not already been added."""    
-        
-        try:        # if a list of urls...
-            for addr in _list_urls:
-                if addr in self.already_visited: pass
-                else:                
-                    try: 
-                        self.list_of_code.append(url.urlopen(addr).read())
-                        self.already_visited.append(addr)
-                    except: pass
-            
-        except:     # if a single element or an error...
+        if (type(_list_urls) == type("")):
+            _list_urls = [_list_urls]
+
+        for addr in _list_urls:
             if addr in self.already_visited: pass
-            else:            
-                try:    # if a single element...
-                    self.list_of_code += [url.urlopen(_list_urls).read()]
+            else:                
+                try: 
+                    self.list_of_code.append(url.urlopen(addr).read())
                     self.already_visited.append(addr)
-                except: print "Error in reading url {}.".format(_list_urls)
-            
+                except: pass
+
 ############################            
          
 k = sgs("https://news.ycombinator.com/news")
