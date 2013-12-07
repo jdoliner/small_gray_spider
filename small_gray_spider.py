@@ -11,14 +11,20 @@ class sgs:
         self.list_of_code = [url.urlopen(self.base_url).read()]
         self.first_conn = self._get_first_connections_urls(self.list_of_code[0])
         
+
     def _get_first_connections_urls(self, _source_url):
+        """Returns all of the urls given by any <a> tag in the _source_url."""
+
         pattern = r"""(<a href=.)(.*?)(['"])"""
         _list = re.findall(pattern, _source_url)
         _list_urls = [item[1] for item in _list]
         return _list_urls
         
-    def _get_first_connections_code(self, _list_urls):       
 
+    def _get_first_connections_code(self, _list_urls):       
+        """Adds the source code for every element in _list_urls if
+            it has not already been added."""    
+        
         try:        # if a list of urls...
             for addr in _list_urls:
                 if addr in self.already_visited: pass
@@ -36,9 +42,10 @@ class sgs:
                     self.already_visited.append(addr)
                 except: print "Error in reading url {}.".format(_list_urls)
             
-        
-        
+############################            
+         
 k = sgs("https://news.ycombinator.com/news")
+
 def get_title(_list):
     biglist = []
     for i in _list:
@@ -46,4 +53,7 @@ def get_title(_list):
         biglist += [i[1] for i in k]
     return biglist
     
-    
+# Example.
+#k._get_first_connections_code(k.first_conn)
+#r = get_title(k.list_of_code)
+#for item in r: print item
